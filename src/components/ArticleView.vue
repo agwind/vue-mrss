@@ -1,20 +1,20 @@
 <template>
-  <div class="articleview">
+  <div class="navview">
     <md-layout md-row>
       <md-layout>
-        <md-button class="md-icon-button md-raised md-primary" @click="decrementIndex">
+        <md-button class="md-icon-button md-raised md-primary" @click="navPrevArticle" v-bind:disabled="isFirst ? true : false">
           <md-icon>arrow_back</md-icon>
         </md-button>
       </md-layout>
       <md-layout>
-        <md-button class="md-icon-button md-raised md-primary on-the-right" @click="incrementIndex">
+        <md-button id="navnext" class="md-icon-button md-raised md-primary on-the-right" @click="navNextArticle" v-bind:disabled="isLast ? true : false">
           <md-icon>arrow_forward</md-icon>
         </md-button>
       </md-layout>
     </md-layout>
     <md-layout md-row>
       <md-layout>
-        <rss_article :article_id="articles[article_index].article_id"></rss_article>
+        <rss_article :article_id="article_id" :article_index="article_index"></rss_article>
       </md-layout>
     </md-layout>
   </div>
@@ -29,53 +29,77 @@ export default {
     rss_article: Article
   },
   watch: {
-    '$route': 'resetIndex'
+    '$route': 'resetIndex',
+    'article_index': 'setArticleId'
   },
   methods: {
     resetIndex () {
       this.article_index = this.$route.params.index
     },
+    navPrevArticle () {
+      if(this.decrementIndex()) {
+        this.$router.push({ name: 'article', params: { feed_id: this.$route.params.feed_id, index: this.article_index }})
+      }
+    },
+    navNextArticle() {
+      if(this.incrementIndex()) {
+        this.$router.push({ name: 'article', params: { feed_id: this.$route.params.feed_id, index: this.article_index }})
+      }
+    },
     decrementIndex () {
       if (this.article_index > 0) {
         this.article_index--;
+        this.setNavButtons()
+        console.log("Index: " + this.article_index)
+        return 1;
+      }
+      console.log("Index: " + this.article_index)
+      return 0;
+    },
+    setNavButtons () {
+      if(this.article_index == 0) {
+        this.isFirst = true
+      } else {
+        this.isFirst = false
+      }
+      if ( this.article_index == (this.$root.$data.articles[this.$route.params.feed_id].length - 1)) {
+        this.isLast = true
+      } else {
+        this.isLast = false
       }
     },
     incrementIndex () {
-      if (this.article_index < this.articles.length - 1) {
+      if (this.article_index < this.$root.$data.articles[this.$route.params.feed_id].length - 1) {
         this.article_index++;
+        this.setNavButtons()
+        console.log("Index: " + this.article_index)
+        return 1;
       }
+      console.log("Index: " + this.article_index)
+      return 0;
+    },
+    setArticleId () {
+      this.article_id = this.$root.$data.articles[this.$route.params.feed_id][this.article_index].id
+      this.setNavButtons()
     }
+  },
+  created: function() {
+    this.setArticleId()
+    console.log("passing: " + this.article_id)
   },
   data () {
     return {
-      articles: [
-        {
-           title: "Interesting Article",
-           article_id: 123
-        },
-        {
-           title: "Funny Article",
-           article_id: 456
-        },
-        {
-          title: "Interesting Funny Scientific Article",
-          article_id: 789
-        }
-      ],
-      article_index: this.$route.params.index
+      articles: [],
+      article_index: this.$route.params.index,
+      article_id: undefined,
+      isFirst: true,
+      isLast: true
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.articleview {
-  margin: 20px;
-}
-.on-the-right {
-  position: absolute;
-  float: right;
-  right: 20px;
-}
+<style>
+
 </style>

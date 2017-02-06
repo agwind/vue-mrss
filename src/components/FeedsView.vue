@@ -1,10 +1,10 @@
 <template>
      <div>
         <md-list md-double-line>
-           <md-list-item v-for="feed in feeds" @click="setNav(feed)">
-            <router-link :to="{ name: 'feed', params: { feed_id: feed.feed_id  }}">
+           <md-list-item v-for="feed in this.feeds" @click="setNav(feed)">
+            <router-link :to="{ name: 'feed', params: { feed_id: feed.id  }}">
               <div class="md-list-text-container">
-                <span>{{ feed.title }}</span>
+                <span>{{ feed.name }}</span>
                 <span>{{ feed.unread }}/{{feed.total}}</span>
              </div>
            </router-link>
@@ -18,34 +18,41 @@ import bus from '../bus'
 
 export default {
   name: 'feedsview',
+  watch: {
+    '$root.$data.feeds': {
+      handler: function(newValue, oldValue) {
+        console.log("Feeds Changed!!")
+        this.refreshFeedList()
+      },
+      deep: true
+    }
+  },
   methods: {
+    refreshFeedList () {
+      this.feeds = this.$root.$data.feeds
+    },
     setNav(feed) {
       bus.$emit('set-nav', {
-        title: feed.title,
+        title: feed.name,
         link: {
           name: 'feed',
-          params: { feed_id: feed.feed_id}
+          params: { feed_id: feed.id}
         }
       })
     }
   },
   data () {
     return {
-      feeds: [
-        {
-           title: "Awesome Site",
-           unread: 23,
-           total: 1099,
-           feed_id: 1
-        },
-        {
-           title: "Realistic Site",
-           unread: 323,
-           total: 9999,
-           feed_id: 2
-        }
-      ]
+      feeds: []
     }
+  },
+  created: function () {
+    this.$http.get('api/feeds').then((response) => {
+      console.log('API Returned: ', response, response.data)
+      this.$root.$data.feeds = response.data
+    }, (response) => {
+      console.log('API Error: ', response)
+    });
   }
 }
 </script>

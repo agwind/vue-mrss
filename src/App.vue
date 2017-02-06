@@ -9,7 +9,7 @@
     <div>
 	  <router-view><router-view>
     </div>
-    <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
+    <md-sidenav class="md-left" ref="leftSidenav" >
     <settings v-on:clicknav="closeLeftSidenav"></settings>
     </md-sidenav>
 	</div>
@@ -39,6 +39,16 @@ export default {
 
 .textcontainer {
   margin: 20px;
+}
+
+.navview {
+  margin: 20px;
+}
+
+#navnext, .on-the-right {
+  position: absolute;
+  float: right;
+  right: 20px;
 }
 
 </style>

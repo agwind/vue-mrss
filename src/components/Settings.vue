@@ -17,6 +17,12 @@
         <md-icon>info</md-icon> <span>About</span>
       </router-link>
     </md-list-item>
+
+    <md-list-item @click="clickNav">
+      <router-link to="/signout">
+        <md-icon>highlight_off</md-icon> <span>Sign Out</span>
+      </router-link>
+    </md-list-item>
 </md-list>
 </div>
 </template>
