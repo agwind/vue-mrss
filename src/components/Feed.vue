@@ -1,13 +1,13 @@
 <template>
-  <div class="navview">
+  <md-layout md-column class="navview">
     <md-layout md-row v-if="max_pages > 1">
       <md-layout>
         <md-button class="md-icon-button md-raised md-primary" @click="navPrevFeeds" v-bind:disabled="isFirst">
           <md-icon>arrow_back</md-icon>
         </md-button>
       </md-layout>
-      <md-layout>
-        <md-button id="navnext" class="md-icon-button md-raised md-primary on-the-right" @click="navNextFeeds" v-bind:disabled="isLast">
+      <md-layout md-align="end">
+        <md-button id="navnext" class="md-icon-button md-raised md-primary" @click="navNextFeeds" v-bind:disabled="isLast">
           <md-icon>arrow_forward</md-icon>
         </md-button>
       </md-layout>
@@ -23,7 +23,7 @@
         </md-list>
       </md-layout>
     </md-layout>
-  </div>
+  </md-layout>
 </template>
 
 <script>

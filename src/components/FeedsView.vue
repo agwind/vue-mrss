@@ -1,16 +1,16 @@
 <template>
-     <div>
-        <md-list md-double-line>
-           <md-list-item v-for="feed in this.feeds" @click="setNav(feed)">
-            <router-link :to="{ name: 'feed', params: { feed_id: feed.id  }}">
-              <div class="md-list-text-container">
-                <span>{{ feed.name }}</span>
-                <span>{{ feed.unread }}/{{feed.total}}</span>
-             </div>
-           </router-link>
-          </md-list-item>
-      </md-list>
-    </div>
+  <md-layout md-column>
+    <md-list md-double-line>
+      <md-list-item v-for="feed in this.feeds" @click="setNav(feed)">
+        <router-link :to="{ name: 'feed', params: { feed_id: feed.id  }}">
+          <div class="md-list-text-container">
+            <span>{{ feed.name }}</span>
+            <span>{{ feed.unread }}/{{feed.total}}</span>
+         </div>
+       </router-link>
+      </md-list-item>
+    </md-list>
+  </md-layout>
 </template>
 
 <script>

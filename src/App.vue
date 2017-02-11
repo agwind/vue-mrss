@@ -1,14 +1,18 @@
 <template>
-   <div class="phone-viewport" id="app">
+   <div id="app">
 	  <md-toolbar>
 	    <md-button class="md-icon-button" @click="toggleLeftSidenav">
 	      <md-icon>menu</md-icon>
 	    </md-button>
 	    <topnav></topnav>
 	  </md-toolbar>
-    <div>
-	  <router-view><router-view>
-    </div>
+    <md-layout md-gutter>
+      <md-layout md-flex md-flex="10" md-hide-small md-hide-xsmall></md-layout>
+      <md-layout>
+	       <router-view><router-view>
+      </md-layout>
+      <md-layout md-flex md-flex="10" md-hide-small md-hide-xsmall></md-layout>
+    </md-layout>
     <md-sidenav class="md-left" ref="leftSidenav" >
     <settings v-on:clicknav="closeLeftSidenav"></settings>
     </md-sidenav>
@@ -46,9 +50,17 @@ export default {
 }
 
 #navnext, .on-the-right {
-  position: absolute;
+  /* position: absolute; */
   float: right;
-  right: 20px;
+  clear: both;
 }
 
+#navnext {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.md-list {
+  width: 100%;
+}
 </style>

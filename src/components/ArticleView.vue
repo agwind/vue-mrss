@@ -1,13 +1,13 @@
 <template>
-  <div class="navview">
+  <md-layout md-column class="navview">
     <md-layout md-row>
       <md-layout>
         <md-button class="md-icon-button md-raised md-primary" @click="navPrevArticle" v-bind:disabled="isFirst ? true : false">
           <md-icon>arrow_back</md-icon>
         </md-button>
       </md-layout>
-      <md-layout>
-        <md-button id="navnext" class="md-icon-button md-raised md-primary on-the-right" @click="navNextArticle" v-bind:disabled="isLast ? true : false">
+      <md-layout md-align="end">
+        <md-button id="navnext" class="md-icon-button md-raised md-primary" @click="navNextArticle" v-bind:disabled="isLast ? true : false">
           <md-icon>arrow_forward</md-icon>
         </md-button>
       </md-layout>
@@ -17,7 +17,7 @@
         <rss_article :article_id="article_id" :article_index="article_index"></rss_article>
       </md-layout>
     </md-layout>
-  </div>
+  </md-layout>
 </template>
 
 <script>
